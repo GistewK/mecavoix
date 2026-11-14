@@ -62,4 +62,10 @@ def speak_blips(text, base_freq=380.0, monitor_locally=False):
     sample_rate = 44100
     letter_count = 0
     for char in text:
-        in char in ".!?":
+        if char in ".!?":
+            time.sleep(0.18)
+        elif char in ",;:":
+            time.sleep(0.09)
+        elif char.isspace():
+            time.sleep(0.04):
+        else
