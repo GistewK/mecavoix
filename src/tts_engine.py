@@ -57,7 +57,7 @@ def speak_blips(text, base_freq=380.0, monitor_locally=False):
 
     vb_id = find_vb_cable_id()
     if vb_id is None:
-        print(Error: "VB-Cable input not found")
+        print("Error: VB-Cable input not found")
         return
     sample_rate = 44100
     letter_count = 0
@@ -67,5 +67,22 @@ def speak_blips(text, base_freq=380.0, monitor_locally=False):
         elif char in ",;:":
             time.sleep(0.09)
         elif char.isspace():
-            time.sleep(0.04):
-        else
+            time.sleep(0.04)
+        else:
+            letter_count += 1
+            if letter_count % 2 == 1:
+                varied_freq = base_freq * random.uniform(0.92, 1.08)
+                blip = generate_retro_blip(base_freq=varied_freq, sample_rate=sample_rate)
+                sd.play(blip, samplerate=sample_rate, device=vb_id)
+                if monitor_locally:
+                    sd.play(blip, samplerate=sample_rate)
+                time.sleep(0.055)
+if __name__ == "__main__":
+    print("Installed Windows SAPI5 Voices:")
+    list_avaliable_voices()
+
+    print("\1n. Testing Robotic SAPI5 TTS...")
+    speak_to_cable("Mecavoix audio bridge online.", rate=160, monitor_locally=True)
+    time.sleep(0.5)
+    print("2. Testing Bleep mode...")
+    speak_blips("* Hello! Testing character bleeps!", base_freq=360.0, monitor_locally=True)
