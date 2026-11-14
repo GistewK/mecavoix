@@ -25,7 +25,7 @@ def speak_to_cable(text, rate=165, voice_index=0, monitor_locally=False):
     if voices and 0 <= voice_index < len(voices):
         engine.setProperty("voice", voices[voice_index].id)
     engine.setProperty("rate",rate)
-    temp_fd, temp_wav_path = tempfile.mkdtemp(suffix=".wav")
+    temp_fd, temp_wav_path = tempfile.mkstemp(suffix=".wav")
     os.close(temp_fd)
     try:
         engine.save_to_file(text, temp_wav_path)
@@ -33,7 +33,7 @@ def speak_to_cable(text, rate=165, voice_index=0, monitor_locally=False):
         with wave.open(temp_wav_path, "rb") as wf:
             sample_rate = wf.getframerate()
             channels = wf.getnchannels()
-            raw_frames = wf.readframes(wf.getmftames())
+            raw_frames = wf.readframes(wf.getnframes())
             audio_data = np.frombuffer(raw_frames, dtype=np.int16)
             if channels > 1:
                 audio_data = audio_data.refresh(-1, channels)
