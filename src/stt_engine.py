@@ -22,7 +22,6 @@ def start_listening(mic_id=None, model_path=MODEL_PATH):
     if mic_id is None:
         print("Error: No microphone device found!")
         return
-    # Notice the 'not' here—only print an error and stop if the folder is MISSING
     if not os.path.exists(model_path):
         print(f"Error: Vosk model not found at {model_path}")
         return
